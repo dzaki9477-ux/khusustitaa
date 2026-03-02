@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  font-family:Arial, sans-serif;
+  background:black;
+  color:white;
+  text-align:center;
+}
+
+#countdown{font-size:70px;}
+
+.question{display:none;}
+
+button{
+  padding:15px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  margin:15px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+#yes{
+  background:#ff1744;
+  color:white;
+  box-shadow:0 0 20px #ff1744;
+}
+
+#no{
+  background:white;
+  color:black;
+  position:absolute;
+}
+
+.heart{
+  position:absolute;
+  font-size:20px;
+  animation:fall linear infinite;
+}
+
+@keyframes fall{
+  0%{transform:translateY(-10vh);}
+  100%{transform:translateY(110vh);}
+}
+
+.shake{
+  animation:shake 0.15s infinite;
+}
+
+@keyframes shake{
+  0%{transform:translate(3px,3px);}
+  50%{transform:translate(-3px,-3px);}
+  100%{transform:translate(3px,-3px);}
+}
+</style>
+</head>
+
+<body>
+
+<div id="countdown">3</div>
+
+<div class="question" id="mainContent">
+  <h1 id="questionText"></h1>
+  <button id="yes">YA 💕</button>
+  <button id="no">TIDAK 😈</button>
+</div>
+
+<audio id="bgm" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+</audio>
+
+<script>
+
+// ===== GANTI NAMA DIA DI SINI =====
+const nama = "titaaaa";
+// ==================================
+
+document.getElementById("questionText").innerHTML =
+`Maukah kamu menjadi My Girlfriend, ${nama}? 💖`;
+
+// COUNTDOWN FIX
+let count = 3;
+const countdownEl = document.getElementById("countdown");
+const mainContent = document.getElementById("mainContent");
+
+let interval = setInterval(() => {
+  count--;
+  if (count <= 0) {
+    clearInterval(interval);
+    countdownEl.style.display = "none";
+    mainContent.style.display = "block";
+    document.body.style.background =
+      "linear-gradient(45deg,#ff6ec4,#7873f5)";
+  } else {
+    countdownEl.innerText = count;
+  }
+}, 1000);
+
+
+// HUJAN LOVE
+function createHeart(){
+  const heart=document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML="💖";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=Math.random()*3+2+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),5000);
+}
+setInterval(createHeart,150);
+
+
+// TOMBOL TIDAK KABUR + MENGECIL + MULTIPLY
+const noBtn=document.getElementById("no");
+let size=18;
+
+noBtn.addEventListener("mouseover",()=>{
+  const x=Math.random()*(window.innerWidth-100);
+  const y=Math.random()*(window.innerHeight-50);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+
+  size-=1;
+  if(size>8){
+    noBtn.style.fontSize=size+"px";
+  }
+
+  if(size<=10){
+    for(let i=0;i<30;i++){
+      const mini=document.createElement("button");
+      mini.innerText="TIDAK 😭";
+      mini.style.position="absolute";
+      mini.style.left=Math.random()*window.innerWidth+"px";
+      mini.style.top=Math.random()*window.innerHeight+"px";
+      mini.style.fontSize="10px";
+      document.body.appendChild(mini);
+    }
+  }
+});
+
+
+// KLIK YES
+document.getElementById("yes").addEventListener("click",()=>{
+
+  document.body.classList.add("shake");
+
+  // mainkan musik setelah klik (aman HP)
+  document.getElementById("bgm").play();
+
+  for(let i=0;i<200;i++){
+    const heart=document.createElement("div");
+    heart.innerHTML="💖";
+    heart.style.position="absolute";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.top=Math.random()*100+"vh";
+    heart.style.fontSize="30px";
+    document.body.appendChild(heart);
+  }
+
+  setTimeout(()=>{
+    document.body.innerHTML=
+    `<h1 style='font-size:35px'>
+    SEKARANG ${nama.toUpperCase()} RESMI JADI PACARKU, CONGRATSS SAYANGG ❤️🔥
+    </h1>`;
+  },2000);
+});
+
+</script>
+
+</body>
+</html>
